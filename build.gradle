@@ -25,6 +25,49 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	compile 'org.junit.jupiter:junit-jupiter-api:5.4.0'
+	compile 'org.junit.jupiter:junit-jupiter-params:5.4.0'
+	compile 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+
+	compile 'org.junit.platform:junit-platform-launcher:1.4.0'
+	compile 'org.junit.platform:junit-platform-commons:1.4.0'
+	compile 'org.junit.platform:junit-platform-suite-api:1.4.0'
+	compile 'org.junit.platform:junit-platform-runner:1.4.0'
+
 	compileOnly 'org.projectlombok:lombok:1.18.8'
 	annotationProcessor 'org.projectlombok:lombok:1.18.8'
+}
+
+
+task runPositiveTests(type: WordTest){
+	useJUnitPlatform {
+		excludeTags 'Negative'
+		includeEngines 'junit-jupiter'
+	}
+
+	initializeTests()
+}
+
+task runNegativeTests(type: WordTest){
+	useJUnitPlatform {
+		includeTags 'Negative'
+		includeEngines 'junit-jupiter'
+	}
+
+	initializeTests()
+}
+
+class WordTest extends Test {
+	@TaskAction
+	def initializeTests() {
+		testLogging {
+			events 'PASSED', 'FAILED', 'SKIPPED'
+		}
+
+		beforeTest {
+			descriptor -> logger.lifecycle("Running test: " + descriptor)
+		}
+
+		testLogging.showStandardStreams = true
+	}
 }
