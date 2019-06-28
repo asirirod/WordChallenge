@@ -49,7 +49,7 @@ public class WordChallengeApplicationTests {
 
 	/**
 	 * Action: Execute with a data file which contains empty lines
-	 * 	 * Validation: Empty lines will be ignored and largest word and transposed word will be selected as expected.
+	 * Validation: Empty lines will be ignored and largest word and transposed word will be selected as expected.
 	 * @throws IOException
 	 */
 	@Test
